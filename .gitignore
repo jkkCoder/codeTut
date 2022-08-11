@@ -12,6 +12,10 @@ node_modules/
 # production
 /frontend/build
 
+#codes and ouput for online compiler
+/backend/codes
+/backend/outputs
+
 # misc
 .DS_Store
 .env

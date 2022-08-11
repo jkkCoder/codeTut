@@ -1,9 +1,12 @@
 import express from "express"
+import cors from "cors"
+
 import {generateFile} from "./generateFile.js"
 import { executeCpp } from "./executeCpp.js"
 
 const app = express()
 
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
