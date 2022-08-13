@@ -3,7 +3,6 @@ import {exec} from "child_process"
 const executePy = (fileData)=>{
     const jobId = fileData.filename.split(".")[0]
 
-    console.log("getting executed")
     return new Promise((resolve,reject)=>{
         exec(`python ${fileData.filepath}`,
                 (error,stdout,stderr)=>{

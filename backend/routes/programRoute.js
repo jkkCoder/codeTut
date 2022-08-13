@@ -1,8 +1,9 @@
 import express from "express"
-import {runProgram} from "../controllers/programController.js"
+import {runProgram,getStatusById} from "../controllers/programController.js"
 
 const router = express.Router()
 
+router.get("/status",getStatusById)
 router.post("/run",runProgram)
 
 

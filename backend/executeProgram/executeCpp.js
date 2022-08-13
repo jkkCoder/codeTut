@@ -13,17 +13,12 @@ const executeCpp = (fileData)=>{
     const jobId = fileData.filename.split(".")[0]
     const outPath = path.join(outputPath,`${jobId}.exe`)
 
-    console.log("getting executed")
     return new Promise((resolve,reject)=>{
         //executing g++ and storing .exe file in outPath
         exec(`g++ ${fileData.filepath} -o ${outPath} && cd ${outputPath} && ${jobId}.exe`,
                 (error,stdout,stderr)=>{
-                    if(error){
-                        reject({error,stderr})
-                    }
-                    if(stderr){
-                        reject(stderr)
-                    }
+                    error && reject({error,stderr}) //reject breaks out of the fn
+                    stderr && reject(stderr)
                     resolve(stdout)
                 })
     })
