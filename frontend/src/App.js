@@ -1,6 +1,8 @@
 import './App.css';
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import axios from "axios"
+import stubs from './defaultStubs';
+import moment from "moment"
 
 function App() {
   const [code, setCode] = useState("")
@@ -8,6 +10,30 @@ function App() {
   const [output, setOutput] = useState("")
   const [status,setStatus] = useState("")
   const [jobId,setJobId] = useState("")
+  const [jobDetails,setJobDetails] = useState(null)
+
+  useEffect(()=>{
+    setCode(stubs[language])
+  },[language])
+
+  const renderTimeDetails = () => {
+    if(!jobDetails){
+      return ""
+    }
+    let result = ''
+    let {submittedAt,completedAt,startedAt} = jobDetails
+    submittedAt = moment(submittedAt).toString()
+    result += `Submitted At : ${submittedAt}`
+    if(!completedAt || !startedAt){
+      return result
+    }
+    const start = moment(startedAt)
+    const end = moment(completedAt)
+    const executionTime = end.diff(start,'seconds',true)
+    result += `\nExecution Time : ${executionTime}s`
+
+    return result
+  }
 
   const handleSubmit = async () => {
     const payload = {
@@ -17,6 +43,7 @@ function App() {
     try {
       setJobId("")
       setStatus("")
+      setJobDetails(null)
       setOutput("")
       const { data } = await axios.post("http://localhost:5000/run", payload)
       console.log("output is", data)
@@ -32,6 +59,7 @@ function App() {
         if (success) {
           const { status: jobStatus, output: jobOutput } = job
           setStatus(jobStatus)
+          setJobDetails(job)
           if (jobStatus === "pending") return;
           setOutput(jobOutput)
           clearInterval(intervalId)
@@ -61,7 +89,10 @@ function App() {
       <div>
         <label>Language:</ label>
         <select value={language} onChange={(e) => {
-          setLanguage(e.target.value)
+          let response = window.confirm("WARNING: Switching the language will remove all your code. You sure you want to switch ?")
+          if(response){
+            setLanguage(e.target.value)
+          }
           console.log(e.target.value)
         }}>
           <option value="cpp">C++</option>
@@ -75,6 +106,7 @@ function App() {
       <p>{status}</p>
       <p>{jobId && `jobId : ${jobId}`}</p>
       <p>{output}</p>
+      <p>{renderTimeDetails()}</p>
     </div>
   );
 }
