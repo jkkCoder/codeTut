@@ -17,21 +17,23 @@ const getStatusById = async(req,res)=>{
         return res.status(404).json({success:false,error:"invalid job id"})
     }
     
+    console.log("updated job is",jobId," job is ",job)
     return res.status(200).json({success:true,job})
 }
 
 const runProgram = async(req,res)=>{
     const {language="cpp",code} = req.body
 
-    if(code === undefined){
+    if(code === undefined || code===""){
         return res.status(400).json({success:false,error:"Empty code body!"})
     }
 
     let jobInstance
+    let fileId
     try{
         // need to generate a c++ file with content from the request
         const fileData = await generateFile(language,code)
-        const fileId = fileData.filename.split(".")[0]  //unique id to store it in map
+        fileId = fileData.filename.split(".")[0]  //unique id to store it in map
 
         //saving it in class
         jobInstance = new JobClass(language,fileData.filepath)
@@ -56,7 +58,7 @@ const runProgram = async(req,res)=>{
         jobs.set(fileId,jobInstance.getAll())
     }catch(err){
         jobInstance.setCompileError(err)
-        console.log(err)
+        jobs.set(fileId,jobInstance.getAll())
     }
 }
 
