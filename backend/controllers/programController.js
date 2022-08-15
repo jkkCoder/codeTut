@@ -2,6 +2,8 @@ import {generateFile} from "../generateFile.js"
 import { executeCpp } from "../executeProgram/executeCpp.js"
 import { executePy } from "../executeProgram/executePy.js"
 import JobClass from "../schema/userCodeFileSchema.js"
+import fs from "fs"
+import path from "path"
 
 let jobs = new Map()
 
@@ -15,6 +17,31 @@ const getStatusById = async(req,res)=>{
     const job = jobs.get(jobId)
     if(job === undefined){
         return res.status(404).json({success:false,error:"invalid job id"})
+    }
+
+    //remove files from codes and output if status is not pending and also remove it from map
+    if(job.status !== "pending")
+    {
+        try {
+            fs.unlinkSync(job.filepath);
+
+            if(job.language === "cpp")
+            {
+                const __dirname = path.resolve()
+                const outputPath = path.join(__dirname,`backend/outputs/${jobId}.exe`)
+                console.log("dirname is ",__dirname)
+                fs.unlinkSync(outputPath)
+                console.log("removed from output path")
+            }
+
+            //remove from map too
+            jobs.delete(jobId)
+            console.log("maps is ",jobs)
+
+            console.log("File is deleted.");
+        } catch (error) {
+            console.log(error);
+        }
     }
     
     console.log("updated job is",jobId," job is ",job)
