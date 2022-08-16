@@ -30,7 +30,6 @@ const getStatusById = async(req,res)=>{
         console.log("maps is ", jobs)
     }
 
-    console.log("updated job is",jobId," job is ",job)
     return res.status(200).json({success:true,job})
 }
 
@@ -64,6 +63,7 @@ const runProgram = async(req,res)=>{
         }
         else if(language==="py"){
             output = await executePy(fileData)
+            console.log("output is ",output)
         }
         jobInstance.setCompileSuccess(output)
 

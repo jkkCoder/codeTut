@@ -8,7 +8,6 @@ const removeFile = (job,jobId) => {
         if (job.language === "cpp") {
             const __dirname = path.resolve()
             const outputPath = path.join(__dirname, `backend/outputs/${jobId}.exe`)
-            console.log("dirname is ", __dirname)
             fs.unlinkSync(outputPath)
             console.log("removed from output path")
         }

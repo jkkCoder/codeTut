@@ -17,7 +17,7 @@ class JobClass{
     setCompileError(error){
         this.completedAt = new Date()
         this.status = this.statusOfCompilation[2]
-        this.output = error.stderr || "cannot connect to server"
+        this.output = error.stderr || "Time Limit Exceeded"
     }
 
     getAll(){

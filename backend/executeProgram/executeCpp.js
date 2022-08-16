@@ -16,6 +16,7 @@ const executeCpp = (fileData)=>{
     return new Promise((resolve,reject)=>{
         //executing g++ and storing .exe file in outPath
         exec(`g++ ${fileData.filepath} -o ${outPath} && cd ${outputPath} && ${jobId}.exe`,
+                {timeout:20000},
                 (error,stdout,stderr)=>{
                     error && reject({error,stderr}) //reject breaks out of the fn
                     stderr && reject(stderr)
