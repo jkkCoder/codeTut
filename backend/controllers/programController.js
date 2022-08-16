@@ -1,6 +1,7 @@
 import {generateFile} from "../generateFile.js"
 import { executeCpp } from "../executeProgram/executeCpp.js"
 import { executePy } from "../executeProgram/executePy.js"
+import removeFile from "../utils/removeFile.js"
 import JobClass from "../schema/userCodeFileSchema.js"
 import fs from "fs"
 import path from "path"
@@ -22,28 +23,13 @@ const getStatusById = async(req,res)=>{
     //remove files from codes and output if status is not pending and also remove it from map
     if(job.status !== "pending")
     {
-        try {
-            fs.unlinkSync(job.filepath);
+        removeFile(job,jobId)
 
-            if(job.language === "cpp")
-            {
-                const __dirname = path.resolve()
-                const outputPath = path.join(__dirname,`backend/outputs/${jobId}.exe`)
-                console.log("dirname is ",__dirname)
-                fs.unlinkSync(outputPath)
-                console.log("removed from output path")
-            }
-
-            //remove from map too
-            jobs.delete(jobId)
-            console.log("maps is ",jobs)
-
-            console.log("File is deleted.");
-        } catch (error) {
-            console.log(error);
-        }
+        //remove from map too
+        jobs.delete(jobId)
+        console.log("maps is ", jobs)
     }
-    
+
     console.log("updated job is",jobId," job is ",job)
     return res.status(200).json({success:true,job})
 }
