@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import stubs from '../defaultStubs';
 import moment from "moment"
+import AceEditor from "react-ace"
 
 const Ide = () => {
 
@@ -14,7 +15,17 @@ const Ide = () => {
 
     useEffect(() => {
         setCode(stubs[language])
+
     }, [language])
+
+    // useEffect(()=>{
+    //     async function init(){
+    //         Codemirror.fromTextArea(document.getElementById("realtimeEditor"),{
+    //             mode:"javascript"
+    //         })
+    //     }
+    //     init()
+    // },[])
 
     const renderTimeDetails = () => {
         if (!jobDetails) {
@@ -100,7 +111,36 @@ const Ide = () => {
                 </select>
             </div>
             <br />
-            <textarea rows="20" cols="75" value={code} onChange={(e) => setCode(e.target.value)}></textarea>
+            {/* <textarea rows="20" cols="75" value={code} onChange={(e) => setCode(e.target.value)}></textarea> */}
+            {/* <AceEditor
+                mode="cpp"
+                theme="monokai"
+                onChange={(e) => {
+                    setCode(e)
+                }}
+                fontSize={14}
+                name="blah2"
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={code}
+                setOptions={{
+                    enableBasicAutocompletion: false,
+                    enableLiveAutocompletion: false,
+                    enableSnippets: false,
+                    showLineNumbers: true,
+                    tabSize: 2,
+                }} /> */}
+
+                <AceEditor
+                    fontSize={14}
+                    value={code}
+                    onChange={(e)=>{
+                        console.log(e)
+                        setCode(e)
+                    }}
+                />
+
             <br></br>
             <button onClick={handleSubmit}>Submit</button>
             <p>{status}</p>
