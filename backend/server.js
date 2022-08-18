@@ -13,10 +13,17 @@ app.use("/",programRoute)
 
 const __dirname = path.resolve()
 
-if(process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname,"/frontend/build")))
+// if(process.env.NODE_ENV === "production"){
+//     app.use(express.static(path.join(__dirname,"/frontend/build")))
 
-    app.get("*",(req,res) => res.sendFile(path.resolve(__dirname,"frontend","build","index.html")))
+//     app.get("*",(req,res) => res.sendFile(path.resolve(__dirname,"frontend","build","index.html")))
+// }
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/frontend/build')))
+  
+    app.get('*', (req, res) =>
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    )
 }
 
 const PORT = 5000 || process.env.PORT
