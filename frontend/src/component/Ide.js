@@ -145,7 +145,7 @@ const Ide = () => {
             <button onClick={handleSubmit}>Submit</button>
             <p>{status}</p>
             <p>{jobId && `jobId : ${jobId}`}</p>
-            <p>{output}</p>
+            <p id="p_wrap">{output}</p>
             <p>{renderTimeDetails()}</p>
         </>
     )
