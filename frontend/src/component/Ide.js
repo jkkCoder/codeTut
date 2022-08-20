@@ -108,6 +108,7 @@ const Ide = () => {
                 }}>
                     <option value="cpp">C++</option>
                     <option value="py">Python</option>
+                    <option value="js">javascript</option>
                 </select>
             </div>
             <br />
@@ -144,7 +145,7 @@ const Ide = () => {
             <br></br>
             <button onClick={handleSubmit}>Submit</button>
             <p>{status}</p>
-            <p>{jobId && `jobId : ${jobId}`}</p>
+            {/* <p>{jobId && `jobId : ${jobId}`}</p> */}
             <p id="p_wrap">{output}</p>
             <p>{renderTimeDetails()}</p>
         </>

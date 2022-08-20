@@ -1,6 +1,7 @@
 import {generateFile} from "../generateFile.js"
 import { executeCpp } from "../executeProgram/executeCpp.js"
 import { executePy } from "../executeProgram/executePy.js"
+import {executeJavascript} from "../executeProgram/executeJavascript.js"
 import removeFile from "../utils/removeFile.js"
 import JobClass from "../schema/userCodeFileSchema.js"
 import fs from "fs"
@@ -64,6 +65,10 @@ const runProgram = async(req,res)=>{
         else if(language==="py"){
             output = await executePy(fileData)
             console.log("output is ",output)
+        }
+        else if(language==="js"){
+            output = await executeJavascript(fileData)
+            console.log("output is",output)
         }
         jobInstance.setCompileSuccess(output)
 

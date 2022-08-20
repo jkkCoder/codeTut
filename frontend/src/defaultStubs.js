@@ -11,4 +11,6 @@ int main(){
 
 stubs.py = `print('Hello World!')`
 
+stubs.js = `console.log('Hello World!')`
+
 export default stubs
