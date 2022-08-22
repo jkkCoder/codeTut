@@ -2,6 +2,7 @@ import {generateFile} from "../generateFile.js"
 import { executeCpp } from "../executeProgram/executeCpp.js"
 import { executePy } from "../executeProgram/executePy.js"
 import {executeJavascript} from "../executeProgram/executeJavascript.js"
+import {executeJava} from "../executeProgram/executeJava.js"
 import removeFile from "../utils/removeFile.js"
 import JobClass from "../schema/userCodeFileSchema.js"
 import fs from "fs"
@@ -47,6 +48,7 @@ const runProgram = async(req,res)=>{
         // need to generate a c++ file with content from the request
         const fileData = await generateFile(language,code)
         fileId = fileData.filename.split(".")[0]  //unique id to store it in map
+        console.log("unique file id is",fileId)
 
         //saving it in class
         jobInstance = new JobClass(language,fileData.filepath)
@@ -70,11 +72,16 @@ const runProgram = async(req,res)=>{
             output = await executeJavascript(fileData)
             console.log("output is",output)
         }
+        else if(language==="java"){
+            output = await executeJava(fileData)
+            console.log("java output is ",output)
+        }
         jobInstance.setCompileSuccess(output)
 
         console.log("job saved in class is ",jobInstance.getAll())
         jobs.set(fileId,jobInstance.getAll())
     }catch(err){
+        console.log("error is ",err)
         jobInstance.setCompileError(err)
         jobs.set(fileId,jobInstance.getAll())
     }

@@ -11,6 +11,16 @@ if(!fs.existsSync(dirCodes)){
 }
 
 const generateFile = async (format,code) => {
+    if(format === "java"){
+        const jobId = uuid()
+        const folderPath = path.join(dirCodes,jobId)    //creating a new folder and storign Main function there
+        //create a folder here
+        fs.mkdirSync(folderPath,{recursive:true})
+        const filepath = path.join(folderPath,"Main.java")
+
+        await fs.writeFileSync(filepath,code)
+        return {filepath,filename:`${jobId}/Main.java`}        
+    }
     const jobId = uuid()
     const filename = `${jobId}.${format}`
     const filepath = path.join(dirCodes,filename)

@@ -1,7 +1,6 @@
 import {exec} from "child_process"
 
 const executeJavascript = (fileData)=>{
-    const jobId = fileData.filename.split(".")[0]
 
     return new Promise((resolve,reject)=>{
         exec(`node ${fileData.filepath}`,

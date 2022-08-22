@@ -9,10 +9,16 @@ const removeFile = (job,jobId) => {
             const __dirname = path.resolve()
             const outputPath = path.join(__dirname, `backend/outputs/${jobId}.exe`)
             fs.unlinkSync(outputPath)
-            console.log("removed from output path")
         }
 
-        console.log("File is deleted.");
+        if(job.language === "java") {
+            const __dirname = path.resolve()
+            let outputDir = path.join(__dirname,"backend","codes",jobId)
+            console.log("output directory is ",outputDir)
+            outputDir = path.join(outputDir,"../")
+            console.log("removing output directory of java ",outputDir)
+            fs.rmdirSync(outputDir, { recursive: true });
+        }
     } catch (error) {
         console.log(error);
     }
