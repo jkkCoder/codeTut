@@ -109,6 +109,7 @@ const Ide = () => {
                     <option value="cpp">C++</option>
                     <option value="py">Python</option>
                     <option value="js">javascript</option>
+                    <option value="java">Java</option>
                 </select>
             </div>
             <br />
